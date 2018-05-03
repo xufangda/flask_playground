@@ -1,6 +1,7 @@
 from flask import Flask, make_response
 from helper import is_isbn_or_key
 from yushu_book import YuShuBook
+import json
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -21,7 +22,7 @@ def search(q, page):
         result = YuShuBook.search_by_isbn(q)
     else:
         result = YuShuBook.search_by_keyword(q)
-    return result
+    return json.dumps(result),200, {'content-type':'application/json'}
 
 # 当使用基于类的视图（即插视图）时，用下边这个函数注册
 # app.add_url_rule('/hello',view_func=hello)
