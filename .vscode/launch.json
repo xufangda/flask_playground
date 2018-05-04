@@ -15,10 +15,6 @@
             "type": "python",
             "request": "launch",
             // "stopOnEntry": true,
-            
-            "args": [
-                "run",
-              ],
             "program": "${file}",
             "debugOptions": [
                 "RedirectOutput"

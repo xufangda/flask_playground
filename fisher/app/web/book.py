@@ -1,30 +1,35 @@
+from flask import Blueprint, jsonify, request
 
-from flask import jsonify
-from flask import Blueprint
 from helper import is_isbn_or_key
 from yushu_book import YuShuBook
+from app.forms.book import SearchForm
 
-# 蓝图blueprint
+from . import web
 
-web=Blueprint('web',__name__)
-
-@web.route('/book/search/<q>/<page>')
-def search(q, page):
+@web.route('/book/search')
+def search(m=1):
     """
         q: 普通关键字 isbn
         page    
     """
     # isbn isbn13 13 digits 
     # isbn 10 10 digits with dash
+    # q至少要有一个字符， 有最大值限制
+    q=request.args['q']
+    # page 正整数，长度限制
+    page=request.args['page']
 
-    isbn_or_key=is_isbn_or_key(q)
-    if isbn_or_key=='isbn':
-        result = YuShuBook.search_by_isbn(q)
+    #验证层
+    form =SearchForm(request.args)
+    if form.validate():
+        q=form.q.data.strip()
+        page=form.page.data
+        isbn_or_key=is_isbn_or_key(q)
+        
+        if isbn_or_key=='isbn':
+            result = YuShuBook.search_by_isbn(q)
+        else:
+            result = YuShuBook.search_by_keyword(q)
+        return jsonify(result)
     else:
-        result = YuShuBook.search_by_keyword(q)
-    # json 序列化
-    # 与楼下等效
-    # return json.dumps(result),200, {'content-type':'application/json'}
-    return jsonify(result)
-# 当使用基于类的视图（即插视图）时，用下边这个函数注册,等价于 @app.router装饰器
-# app.add_url_rule('/hello',view_func=hello)
+        return jsonify({'msg':'参数校验失败'})
