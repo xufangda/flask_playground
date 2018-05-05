@@ -15,9 +15,9 @@ def search(m=1):
     # isbn isbn13 13 digits 
     # isbn 10 10 digits with dash
     # q至少要有一个字符， 有最大值限制
-    q=request.args['q']
+    # q=request.args['q']
     # page 正整数，长度限制
-    page=request.args['page']
+    # page=request.args['page']
 
     #验证层
     form =SearchForm(request.args)
@@ -29,7 +29,7 @@ def search(m=1):
         if isbn_or_key=='isbn':
             result = YuShuBook.search_by_isbn(q)
         else:
-            result = YuShuBook.search_by_keyword(q)
+            result = YuShuBook.search_by_keyword(q,page)
         return jsonify(result)
     else:
-        return jsonify({'msg':'参数校验失败'})
+        return jsonify(form.errors)
