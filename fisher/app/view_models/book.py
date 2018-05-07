@@ -1,4 +1,5 @@
 class BookViewModel:
+    @classmethod
     def package_single(self, data, keyword):
         returned = {
             'books':[],
@@ -7,10 +8,12 @@ class BookViewModel:
         }
         if data:
             returned['total']=1
-
+            returned['books']=[cls.__cut_boook_data]
+    @classmethod
     def package_collection(self):
         pass
 
+    @classmethod
     def __cut_boook_data(self,data):
         book={
             'title':data['title'],
