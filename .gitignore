@@ -1,5 +1,6 @@
 /fisher/__pycache__
 .idea
+__pycache__
 /fisher/app/web/__pycache__
 /fisher/app/secure.py
 /test
