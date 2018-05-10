@@ -37,6 +37,6 @@ def search(m=1):
             yushu_book.search_by_keyword(q,page)
 
         books.fill(yushu_book, q)
-        return json.dumps(books,default = lambda o:o.__dict__),
+        return json.dumps(books,default = lambda o:o.__dict__),200,{'content-type':'application/json'}
     else:
         return jsonify(form.errors)

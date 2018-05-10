@@ -6,8 +6,8 @@ class BookViewModel:
         self.author='、'.join(book['author'])
         self.image=book['image']
         self.price = book['price']
-        self.summary = book['summary']
-        self.pages =book['pages']
+        self.summary = book['summary'] or ''
+        self.pages =book['pages'] or ''
 
 class BookCollection:
     def __init__(self):
